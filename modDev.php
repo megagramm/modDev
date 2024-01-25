@@ -74,7 +74,14 @@ if (file_exists($commandPath)) {
 		exit;
 	}
 
-	if(is_array($devices)) {
+	if(is_string($devices) && file_exists($devices)) {
+		$lines = file($devices, FILE_IGNORE_NEW_LINES);
+		foreach ($lines as $device) {
+			$cmd = "ssh root@{$device} {$commands[$o['c']]['command']}";
+			echo $cmd . PHP_EOL;
+			echo shell_exec($cmd);
+		}
+	} elseif (is_array($devices)) {
 		foreach ($devices as $device) {
 			$cmd = "ssh root@{$device} {$commands[$o['c']]['command']}";
 			echo $cmd . PHP_EOL;
