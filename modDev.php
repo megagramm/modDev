@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 $o = getopt('d:c:h', ['device:', 'command:', 'help']);
-$commandsDir = getcwd() . '/commands/';
+$commandsDir = __DIR__ . '/commands/';
 
 if(empty($o['c'])) {
 	$o['c'] = '';
