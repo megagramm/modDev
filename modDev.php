@@ -26,7 +26,7 @@ if (isset($o['device'])) {
 	$o['d'] = $o['device'];
 }
 
-$device = $o['d'];
+$devices = $o['d'];
 $command = $o['c'];
 $commandPath = $commandsDir . $o['c'] . '.inc.php';
 $commandsPrint = "";
@@ -73,10 +73,18 @@ if (file_exists($commandPath)) {
 		echo "Command does not exists" . PHP_EOL;
 		exit;
 	}
-	// $c = $commands;
-	$cmd = "ssh root@{$o['d']} {$commands[$o['c']]['command']}";
-	echo $cmd . PHP_EOL;
-	echo shell_exec($cmd);
+
+	if(is_array($devices)) {
+		foreach ($devices as $device) {
+			$cmd = "ssh root@{$device} {$commands[$o['c']]['command']}";
+			echo $cmd . PHP_EOL;
+			echo shell_exec($cmd);
+		}
+	} else {
+		$cmd = "ssh root@{$devices} {$commands[$o['c']]['command']}";
+		echo $cmd . PHP_EOL;
+		echo shell_exec($cmd);
+	}
 } else {
 	echo "Command does not exists" . PHP_EOL;
 }
