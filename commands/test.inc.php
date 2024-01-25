@@ -8,4 +8,4 @@ declare(strict_types=1);
  */
 
 $title = "Тестирование подключения";
-$shCommand = "echo 'I am in $device'";
+$shCommand = "echo 'I am in; hostname;'";
