@@ -30,6 +30,7 @@ $devices = $o['d'];
 $command = $o['c'];
 $commandPath = $commandsDir . $o['c'] . '.inc.php';
 $commandsPrint = "";
+$device = "";
 
 foreach (glob($commandsDir . '*.inc.php') as $value) {
 	include_once $value;
@@ -88,7 +89,8 @@ if (file_exists($commandPath)) {
 			echo shell_exec($cmd);
 		}
 	} else {
-		$cmd = "ssh root@{$devices} {$commands[$o['c']]['command']}";
+		$device = $devices;
+		$cmd = "ssh root@{$device} {$commands[$o['c']]['command']}";
 		echo $cmd . PHP_EOL;
 		echo shell_exec($cmd);
 	}
