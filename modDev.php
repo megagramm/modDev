@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-$o = getopt('d:c:h', ['device:', 'command:', 'help']);
+$o = getopt('d:c:hu:', ['device:', 'command:', 'help']);
 $commandsDir = __DIR__ . '/commands/';
 
 if(empty($o['c'])) {
@@ -51,6 +51,7 @@ $argv[0] -d hostname.local -c test
  -d | --device   hostname или ip устройства.
  -c | --command  команда на исполение.
  -h | --help     вывести это окно
+ -u              username (default:root)
 
 Доступные команды:
 
@@ -90,7 +91,7 @@ if (file_exists($commandPath)) {
 		}
 	} else {
 		$device = $devices;
-		$cmd = "ssh root@{$device} {$commands[$o['c']]['command']}";
+		$cmd = "ssh " . ($o['u'] ?? 'root') . "@{$device} {$commands[$o['c']]['command']}";
 		echo $cmd . PHP_EOL;
 		echo shell_exec($cmd);
 	}
