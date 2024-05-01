@@ -17,7 +17,7 @@ final class enableSnmpTraps implements ModificateHostInterface
 	public static function shCommand(): string
 	{
 		return <<<EOF
-"echo 'trap2sink 192.168.14.73 public 8062' > /run/etc/snmp/snmpd.d/enableTraps.conf && systemctl restart b4c-snmpd"
+"echo 'trap2sink 10.77.128.150 public 162' > /run/etc/snmp/snmpd.d/enableTraps.conf && systemctl restart b4c-snmpd"
 EOF;
 	}
 }
