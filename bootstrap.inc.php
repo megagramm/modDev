@@ -9,7 +9,8 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-include_once "ModificateHost.inc.php";
+include_once __DIR__ . "/" ."ModificateHost.inc.php";
+include_once __DIR__ . "/" ."ModificateHostInterface.inc.php";
 
 spl_autoload_register(function ($Class) {
 	if (preg_match('/^\w/i', $Class)) {
