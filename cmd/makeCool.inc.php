@@ -11,12 +11,13 @@ final class makeCool implements ModificateHostInterface
 {
     public static function title(): string
     {
-        return "Сделать все операции разом";
+        return "Настроить устройство для работы с песочницей";
     }
 
     public static function shCommand(): string
     {
         $arr = [
+            'setSshKey',
             'addRouteToSandbox',
             'enableKnocker',
             'enableSnmp',
