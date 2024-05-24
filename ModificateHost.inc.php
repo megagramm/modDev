@@ -110,12 +110,9 @@ class ModificateHost
         return <<<EOF
 Скрипт изменяет некоторые состояния устройств. Например включает или отключает поддержку snmp:
 
-$argv[0] -d 000.000.000.000 -c test
-$argv[0] -d hostname.local -c test
-
 Доступные опции:
-	-d | --device   hostname или ip устройства.
-	-c | --command  команда на исполение.
+	-d | --device   [обязательная] hostname или ip устройства.
+	-c | --command  [обязательная] команда на исполение.
 	-h | --help     вывести это окно
 	-u              username (default:root)
 
@@ -123,6 +120,15 @@ $argv[0] -d hostname.local -c test
 
 $commandsPrint
 
+Примеры:
+Протестировать что доступ по ssh к устройству hostname.local
+$argv[0] -d hostname.local -c test
+
+Для 192.168.10.3 построить маршрут к песочнице и включить отдачу snmp для всех
+$argv[0] -d 192.168.10.3 -c addRouteToSandbox -с enableSnmp
+
+Настроить 3 перечисленных стройства для работы с песочницей
+$argv[0] -d 10.10.10.101 -d 10.10.10.102 -d 10.10.10.103 -c makeCool
 EOF . PHP_EOL;
     }
 
