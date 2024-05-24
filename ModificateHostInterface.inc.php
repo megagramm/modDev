@@ -9,7 +9,8 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-interface ModificateHostInterface {
-	public static function title(): string;
-	public static function shCommand(): string;
+interface ModificateHostInterface
+{
+    public static function title(): string;
+    public static function shCommand(): string;
 }

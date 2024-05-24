@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 final class test implements ModificateHostInterface
 {
-	public static function title(): string
-	{
-		return "Тестирование подключения";
-	}
+    public static function title(): string
+    {
+        return "Тестирование подключения";
+    }
 
-	public static function shCommand(): string
-	{
-		return "echo 'I am in; hostname;'";
-	}
+    public static function shCommand(): string
+    {
+        return "echo 'I am in; hostname;'";
+    }
 }
