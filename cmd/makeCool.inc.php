@@ -27,8 +27,8 @@ final class makeCool implements ModificateHostInterface
         $arr2 = [];
         foreach ($arr as $class) {
             if (class_exists($class)) {
-                if(method_exists($class, 'shCommand')){
-                $arr2[] = $class::shCommand();
+                if (method_exists($class, 'shCommand')) {
+                    $arr2[] = $class::shCommand();
                 }
             }
         }

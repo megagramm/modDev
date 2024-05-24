@@ -9,15 +9,15 @@ declare(strict_types=1);
 
 final class setBtrfsRw implements ModificateHostInterface
 {
-	public static function title(): string
-	{
-		return "Установить файловую систему в режим записи btrfs-rw";
-	}
+    public static function title(): string
+    {
+        return "Установить файловую систему в режим записи btrfs-rw";
+    }
 
-	public static function shCommand(): string
-	{
-		return <<<EOF
+    public static function shCommand(): string
+    {
+        return <<<EOF
 'btrfs-rw'
 EOF;
-	}
+    }
 }
