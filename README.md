@@ -51,7 +51,7 @@
 ```
 Выполлнить команды из файла для перечисленных в фаайле устройств
 ```
-$argv[0] -d /path/to/devicesFile -c /path/to/commandsFile
+./md.php -d /path/to/devicesFile -c /path/to/commandsFile
 ```
 
 Команду добавить можно разместив новый класс-файл в cmd/<названиекоманды>.inc.php
