@@ -53,9 +53,14 @@ class ModificateHost
             exit;
         }
 
-        if (is_string($o['d'])) {
+        if (!is_file($o['d']) && is_string($o['d'])) {
             $this->devices[] = $o['d'];
         } else {
+            if (is_file($o['d']) && is_string($o['d'])) {
+                $file = $o['d'];
+                $o['d'] = [];
+                $o['d'][] = $file;
+            }
             foreach ($o['d'] as $device) {
                 if (is_file($device)) {
                     $lines = file($device, FILE_IGNORE_NEW_LINES);
@@ -68,9 +73,14 @@ class ModificateHost
             }
         }
 
-        if (is_string($o['c'])) {
+        if (!is_file($o['c']) && is_string($o['c'])) {
             $this->commands[] = $o['c'];
         } else {
+            if (is_file($o['c']) && is_string($o['c'])) {
+                $file = $o['c'];
+                $o['c'] = [];
+                $o['c'][] = $file;
+            }
             foreach ($o['c'] as $command) {
                 if (is_file($command)) {
                     $lines = file($command, FILE_IGNORE_NEW_LINES);
