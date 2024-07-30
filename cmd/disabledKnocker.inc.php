@@ -15,11 +15,12 @@ final class disabledKnocker implements ModificateHostInterface
 
     public static function shCommand(): string
     {
+        global $config;
         return <<<EOF
 "btrfs-rw \
-&& systemctl disabled knock.sandbox.timer \
-&& rm /run/systemd/system/knock.sandbox.timer \
-&& rm /run/systemd/system/knock.sandbox.service \
+&& systemctl disabled knock.{$config['suphix']}.timer \
+&& rm /run/systemd/system/knock.{$config['suphix']}.timer \
+&& rm /run/systemd/system/knock.{$config['suphix']}.service \
 && btrfs-ro
 "
 EOF;
