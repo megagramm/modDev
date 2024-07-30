@@ -15,14 +15,14 @@ final class enableKnocker implements ModificateHostInterface
 
     public static function shCommand(): string
     {
+        global $config;
         return <<<EOF
 "btrfs-rw \
-; cp /run/systemd/system/knock.timer /run/systemd/system/knock.sandbox.timer && sed -i 's/knock.service/knock.sandbox.service/g' /run/systemd/system/knock.sandbox.timer \
-; cp /run/systemd/system/knock.service /run/systemd/system/knock.sandbox.service && sed -i 's/10.2.0.1/10.77.128.150/g' /run/systemd/system/knock.sandbox.service \
-; systemctl enable knock.sandbox.timer \
-; systemctl start knock.sandbox.timer \
+; cp /run/systemd/system/knock.timer /run/systemd/system/knock.{$config['suphix']}.timer && sed -i 's/knock.service/knock.{$config['suphix']}.service/g' /run/systemd/system/knock.{$config['suphix']}.timer \
+; cp /run/systemd/system/knock.service /run/systemd/system/knock.{$config['suphix']}.service && sed -i 's/10.2.0.1/{$config['ip']}/g' /run/systemd/system/knock.{$config['suphix']}.service \
+; systemctl enable knock.{$config['suphix']}.timer \
+; systemctl start knock.{$config['suphix']}.timer \
 ; btrfs-ro"
 EOF;
-        "echo 'trap2sink 10.77.128.150 public 162' > /run/etc/snmp/snmpd.d/enableTraps.conf && systemctl restart b4c-snmpd";
     }
 }

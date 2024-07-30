@@ -16,8 +16,9 @@ final class addRouteToSandbox implements ModificateHostInterface
 
     public static function shCommand(): string
     {
+        global $config;
         return <<<EOF
-"ip r add 10.77.128.150 via 10.77.122.1"
+"ip r add {$config['ip']} via 10.77.122.1"
 EOF;
     }
 }
