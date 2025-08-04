@@ -154,8 +154,8 @@ EOF . PHP_EOL;
         $arr = [];
         $maxKeyLengh = 0;
 
-        foreach (glob(self::$commandsDir . '*.inc.php') as $value) {
-            $key = basename($value, '.inc.php');
+        foreach (glob(self::$commandsDir . '*.php') as $value) {
+            $key = basename($value, '.php');
 
             if (class_exists($key)) {
                 if (strlen($key) > $maxKeyLengh) {

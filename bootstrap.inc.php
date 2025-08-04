@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
+$init_modules = ['cli'];
+
 spl_autoload_register(function ($Class) {
     if (preg_match('/^\w/i', $Class)) {
         $file = $Class . '.php';
@@ -17,9 +19,15 @@ spl_autoload_register(function ($Class) {
             return;
         }
     }
-});
 
-$init_modules = ['cli'];
+    if (preg_match('/^\w/i', $Class)) {
+        $file = ModificateHost::$commandsDir . $Class . '.php';
+        if (file_exists($file)) {
+            include_once $file;
+            return;
+        }
+    }
+});
 
 try {
 
@@ -35,25 +43,6 @@ try {
         ModificateHost::makeVarsFile($varsFilePath);
     }
 
-
-    spl_autoload_register(function ($Class) {
-        // if (preg_match('/^\w/i', $Class)) {
-        //     $file = $Class . '.inc.php';
-        //     if (file_exists($file)) {
-        //         include_once $file;
-        //         return;
-        //     }
-        // }
-
-        if (preg_match('/^\w/i', $Class)) {
-            $file = ModificateHost::$commandsDir . $Class . '.inc.php';
-            if (file_exists($file)) {
-                include_once $file;
-                return;
-            }
-        }
-    });
-
     if (! is_readable($c['initPath'])) {
         throw new Exception("Wrong Init path", 1);
     }
@@ -62,7 +51,6 @@ try {
     $o = getopt('d:c:hu:', ['device:', 'command:', 'help']);
     $o['argv'] = $argv;
     $obj = new ModificateHost($o);
-
 } catch (Exception $e) {
 
     echo "!!! Error " . PHP_EOL . $e->getMessage() . PHP_EOL;
