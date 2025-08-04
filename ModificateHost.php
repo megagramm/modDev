@@ -172,7 +172,6 @@ EOF . PHP_EOL;
   - {$key}{$spacer} {$value}
 EOF . PHP_EOL;
         }
-            echo "jq";
 
         return $commandsPrint;
     }

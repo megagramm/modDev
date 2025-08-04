@@ -13,14 +13,14 @@ $init_modules = ['cli'];
 
 spl_autoload_register(function ($Class) {
     if (preg_match('/^\w/i', $Class)) {
-        $file = $Class . '.php';
+        // Сначала ищем в корневой директории (для основных классов и интерфейсов)
+        $file = __DIR__ . '/' . $Class . '.php';
         if (file_exists($file)) {
             include_once $file;
             return;
         }
-    }
 
-    if (preg_match('/^\w/i', $Class)) {
+        // Затем ищем в директории команд
         $file = ModificateHost::$commandsDir . $Class . '.php';
         if (file_exists($file)) {
             include_once $file;
