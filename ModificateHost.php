@@ -18,6 +18,7 @@ class ModificateHost
 
     public function __construct($o)
     {
+
         if (empty($o['c'])) {
             $o['c'] = '';
         }
@@ -132,7 +133,7 @@ $commandsPrint
 
 Примеры:
 Протестировать что доступ по ssh к устройству hostname.local
-$argv[0] -d hostname.local -c test
+{$argv[0]} -d hostname.local -c test
 
 Для 192.168.10.3 построить маршрут к песочнице и включить отдачу snmp для всех
 $argv[0] -d 192.168.10.3 -c addRouteToSandbox -с enableSnmp
@@ -152,8 +153,10 @@ EOF . PHP_EOL;
         $commandsPrint = "";
         $arr = [];
         $maxKeyLengh = 0;
+
         foreach (glob(self::$commandsDir . '*.inc.php') as $value) {
             $key = basename($value, '.inc.php');
+
             if (class_exists($key)) {
                 if (strlen($key) > $maxKeyLengh) {
                     $maxKeyLengh = strlen($key);
@@ -169,6 +172,89 @@ EOF . PHP_EOL;
   - {$key}{$spacer} {$value}
 EOF . PHP_EOL;
         }
+            echo "jq";
+
         return $commandsPrint;
+    }
+
+
+    public static function makeVarsFile(string $varsFilePath): bool
+    {
+        global $c;
+
+        echo PHP_EOL
+            . "Первый запуск скрипта" . PHP_EOL
+            . "Необходимо собрать базовые параметры:" . PHP_EOL
+            . PHP_EOL;
+
+        $hostIpShow = $hostIp = trim(`ip -f inet addr show eth0 | grep -Po 'inet \K[\d.]+' | head -n1`);
+        $hostIpShow = $hostIpShow ?: 'IP не определён';
+        echo "Укажите IP адрес SDMAN ({$hostIpShow}):" . PHP_EOL;
+        $ip = trim(fgets(STDIN));
+        $hostIp = $ip ?: $hostIp;
+
+        $filenameSuphixShow = $filenameSuphix = (trim(`echo \$USER`) ?: 'sandbox');
+        echo "Укажите суффикс для файлов настройки ({$filenameSuphixShow}):" . PHP_EOL;
+        $suphix = trim(fgets(STDIN));
+        $filenameSuphix = $suphix ?: $filenameSuphix;
+
+        $initPath = realpath(__DIR__ . '/../app') . '/includes/init.php';
+        echo "Укажите путь к файлу init.php ({$initPath}):" . PHP_EOL;
+        $initUserPath = trim(fgets(STDIN));
+        $initPath = $initUserPath ?: $initPath;
+
+        if (! is_file($initPath)) {
+            throw new Exception("Wrong Init path: " . $initPath, 1);
+        }
+
+        $vars = <<<EOF
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Модифицирует настройки на устройствах
+ *
+ * @package     modDev
+ * @author      Andrey Grey <megagramm@gmail.com>
+ */
+
+\$c = [];
+\$c['ip'] = '$hostIp';
+\$c['suphix'] = '$filenameSuphix';
+\$c['initPath'] = '$initPath';
+EOF;
+
+        if (file_put_contents($varsFilePath, $vars) === false) {
+            die('vars.inc.php does not exists');
+        }
+        echo "================================" . PHP_EOL . PHP_EOL;
+        return true;
+    }
+
+
+    public static function checkCParams(): bool
+    {
+        global $c;
+        // обязательные параметры
+        $keys = ['ip', 'suphix', 'initPath'];
+
+        try {
+
+            if (empty($c)) {
+                throw new CParamsException("Empty \$c params", 1);
+            }
+
+            foreach ($keys as $key => $value) {
+                if (!is_numeric($key) && ! array_key_exists($key, $c)) {
+                    throw new CParamsException("The '$key' parameter is missing", 1);
+                }
+            }
+        } catch (CParamsException $cp) {
+            echo $cp->getMessage() . PHP_EOL;
+            return false;
+        }
+
+        return true;
     }
 }
