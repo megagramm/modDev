@@ -15,16 +15,16 @@ final class enableKnocker implements ModificateHostInterface
 
     public static function shCommand(): string
     {
-        global $config;
+        global $c;
         return <<<EOF
 "btrfs-rw \
-; cp /run/systemd/system/knock.timer /run/systemd/system/knock.{$config['suphix']}.timer \
-; sed -i 's/knock.service/knock.{$config['suphix']}.service/g' /run/systemd/system/knock.{$config['suphix']}.timer \
-; sed -i 's/"1m 30s"/90/g' /run/systemd/system/knock.{$config['suphix']}.timer \
-; cp /run/systemd/system/knock.service /run/systemd/system/knock.{$config['suphix']}.service \
-; sed -i 's/10.2.0.1/{$config['ip']}/g' /run/systemd/system/knock.{$config['suphix']}.service \
-; systemctl enable knock.{$config['suphix']}.timer \
-; systemctl start knock.{$config['suphix']}.timer \
+; cp /run/systemd/system/knock.timer /run/systemd/system/knock.{$c['suphix']}.timer \
+; sed -i 's/knock.service/knock.{$c['suphix']}.service/g' /run/systemd/system/knock.{$c['suphix']}.timer \
+; sed -i 's/"1m 30s"/90/g' /run/systemd/system/knock.{$c['suphix']}.timer \
+; cp /run/systemd/system/knock.service /run/systemd/system/knock.{$c['suphix']}.service \
+; sed -i 's/10.2.0.1/{$c['ip']}/g' /run/systemd/system/knock.{$c['suphix']}.service \
+; systemctl enable knock.{$c['suphix']}.timer \
+; systemctl start knock.{$c['suphix']}.timer \
 ; btrfs-ro"
 EOF;
     }

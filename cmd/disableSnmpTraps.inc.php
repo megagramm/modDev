@@ -16,9 +16,9 @@ final class disableSnmpTraps implements ModificateHostInterface
 
     public static function shCommand(): string
     {
-        global $config;
+        global $c;
         return <<<EOF
-"rm /run/etc/snmp/snmpd.d/enableTraps.{$config['suphix']}.conf && systemctl restart b4c-snmpd"
+"rm /run/etc/snmp/snmpd.d/enableTraps.{$c['suphix']}.conf && systemctl restart b4c-snmpd"
 EOF;
     }
 }

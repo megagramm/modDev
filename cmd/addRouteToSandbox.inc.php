@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
+
 final class addRouteToSandbox implements ModificateHostInterface
 {
     public static function title(): string
@@ -16,9 +17,9 @@ final class addRouteToSandbox implements ModificateHostInterface
 
     public static function shCommand(): string
     {
-        global $config;
+        global $c;
         return <<<EOF
-"ip r add {$config['ip']} via 10.77.122.1"
+"ip r add {$c['ip']} via 10.77.122.1"
 EOF;
     }
 }
