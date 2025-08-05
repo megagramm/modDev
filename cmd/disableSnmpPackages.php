@@ -7,17 +7,19 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class disableSnmpPackages implements ModificateHostInterface
+final class disableSnmpPackages extends CmdAbstract
 {
     public static function title(): string
     {
         return "Выключить получение по SNMP данных по установленным пакетам";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
-        return <<<EOF
+        $this->cmd = <<<EOF
 "rm /run/etc/snmp/snmpd.d/enablePackages.conf && systemctl restart b4c-snmpd"
 EOF;
+        $this->sshRun($params['user'], $params['host']);
     }
 }

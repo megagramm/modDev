@@ -7,15 +7,17 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class test implements ModificateHostInterface
+final class test extends CmdAbstract
 {
     public static function title(): string
     {
         return "Тестирование подключения";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
-        return "echo 'I am in; hostname;'";
+        $this->cmd = "echo 'I am in; hostname;'";
+        $this->sshRun($params['user'], $params['host']);
     }
 }

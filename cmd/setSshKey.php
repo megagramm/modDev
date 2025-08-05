@@ -7,16 +7,18 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class setSshKey implements ModificateHostInterface
+final class setSshKey extends CmdAbstract
 {
     public static function title(): string
     {
         return "Установить ваш ssh ключ чтобы исполнять команды без пароля";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
         $sshPublicKey = `cat ~/.ssh/id_rsa.pub`;
-        return "\" btrfs-rw ; echo '$sshPublicKey' >> ~/.ssh/authorized_keys ; btrfs-ro\"";
+        $this->cmd = "\" btrfs-rw ; echo '$sshPublicKey' >> ~/.ssh/authorized_keys ; btrfs-ro\"";
+        $this->sshRun($params['user'], $params['host']);
     }
 }

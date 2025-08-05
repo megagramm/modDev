@@ -7,14 +7,15 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class makeCool implements ModificateHostInterface
+final class makeCool extends CmdAbstract
 {
     public static function title(): string
     {
         return "Настроить устройство для работы с песочницей";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
         $arr = [
             'setSshKey',
@@ -28,14 +29,12 @@ final class makeCool implements ModificateHostInterface
         foreach ($arr as $class) {
             if (class_exists($class)) {
                 if (method_exists($class, 'shCommand')) {
-                    $arr2[] = $class::shCommand();
+                    $arr2[] = (new $class)->shCommand($params);
                 }
             }
         }
 
-        $str = "\"" . str_replace("\"", "", implode(" ;\\" . PHP_EOL, $arr2)) . "\"";
-        // var_dump($str);
-
-        return $str;
+        $this->cmd = "\"" . str_replace("\"", "", implode(" ;\\" . PHP_EOL, $arr2)) . "\"";
+        $this->sshRun($params['user'], $params['host']);
     }
 }

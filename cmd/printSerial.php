@@ -7,17 +7,19 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class printSerial implements ModificateHostInterface
+final class printSerial extends CmdAbstract
 {
     public static function title(): string
     {
         return "Показать серийный номер и ключ";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
-        return <<<EOF
+        $this->cmd = <<<EOF
 'SER=$(cat /etc/dev_serial) && cat /etc/apt/auth.conf.d/\${SER}.conf | tail -2' | awk '{print $2}'
 EOF;
+        $this->sshRun($params['user'], $params['host']);
     }
 }

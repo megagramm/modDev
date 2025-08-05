@@ -99,14 +99,12 @@ class ModificateHost
         foreach ($this->devices as $device) {
             foreach ($this->commands as $command) {
                 if (class_exists($command)) {
-                    $cmd = sprintf(
-                        "ssh %s@%s %s",
-                        $this->user,
-                        $device,
-                        $command::shCommand()
-                    );
-                    echo $cmd . PHP_EOL;
-                    echo shell_exec($cmd);
+                    $cmdParams = [
+                        'user' => $this->user,
+                        'host' => $device, // ip or hostname
+                        'argv' => $o
+                    ];
+                    (new $command)->shCommand($cmdParams);
                 } else {
                     echo "Команды {$command} не существует" . PHP_EOL;
                     continue;

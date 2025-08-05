@@ -7,17 +7,19 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class setBtrfsRw implements ModificateHostInterface
+final class setBtrfsRw extends CmdAbstract
 {
     public static function title(): string
     {
         return "Установить файловую систему в режим записи btrfs-rw";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
-        return <<<EOF
+        $this->cmd = <<<EOF
 'btrfs-rw'
 EOF;
+        $this->sshRun($params['user'], $params['host']);
     }
 }

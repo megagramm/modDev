@@ -7,17 +7,19 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class enableSnmp implements ModificateHostInterface
+final class enableSnmp extends CmdAbstract
 {
     public static function title(): string
     {
         return "Включить ответ по SNMP для устройства у всех comunity";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
-        return <<<EOF
+        $this->cmd = <<<EOF
 "echo 'rocommunity public  default    -V systemonly' > /run/etc/snmp/snmpd.d/rocommunity.conf && systemctl restart b4c-snmpd"
 EOF;
+        $this->sshRun($params['user'], $params['host']);
     }
 }

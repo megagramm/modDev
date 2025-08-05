@@ -7,17 +7,19 @@ declare(strict_types=1);
  * @author      Andrey Grey <megagramm@gmail.com>
  */
 
-final class setBtrfsRo implements ModificateHostInterface
+final class setBtrfsRo extends CmdAbstract
 {
     public static function title(): string
     {
         return "Установить файловую систему в режим чтения btrfs-ro";
     }
 
-    public static function shCommand(): string
+
+    public function shCommand(array $params): void
     {
-        return <<<EOF
+        $this->cmd = <<<EOF
 'btrfs-ro'
 EOF;
+        $this->sshRun($params['user'], $params['host']);
     }
 }
